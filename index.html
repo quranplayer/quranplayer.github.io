@@ -22,16 +22,14 @@
                 </div>
                 <div id="menu" class="down">
                     <a class="option" href="https://discord.gg/ujtaNuzyV2" target="_blank">
-                        <img class="add-img" src="https://www.clipartmax.com/png/full/409-4099027_invite-a-friend-or-family-members-find-a-fitness-partner-invite-a.png" alt="">
-                        <p>Suggest Reciter(s)</p>
-                    </a>
-                    <a class="option" href="https://discord.gg/ujtaNuzyV2" target="_blank">
-                        <img class="add-img" src="https://icon-library.com/images/suggestion-icon/suggestion-icon-3.jpg" alt="">
-                        <p>Suggest Feature(s)</p>
-                    </a>
-                    <a class="option" href="https://discord.gg/ujtaNuzyV2" target="_blank">
-                        <img class="add-img" src="https://www.pinclipart.com/picdir/big/551-5515701_red-attention-sign-png-no-background-transparent-background.png" alt="">
-                        <p>Report Bug/Error</p>
+                        <img class="add-img" src="https://uploads-ssl.webflow.com/60e73a0bcef2f8e2b9cbf8af/60f9f7c07ae198882c23e1c6_Transparent_Discord_Logo_PNG_Square_2021__Pnggrid.png" alt="">
+                        <p>Join the discord to:</p>
+                        <ul>
+                            <li>Suggest reciter(s)</li>
+                            <li>Suggest feature(s)</li>
+                            <li>Report bugs or errors</li>
+                            <li>Send general feedback</li>
+                        </ul>
                     </a>
                     <div id="settings">
                         <input type="checkbox" id="opt1" name="opt1" onclick="toggleImage()">
@@ -218,6 +216,18 @@
     </div>
 
     <button id="reset" onclick="reset()">RESET</button>
+
+    <div id="pop-up-bg">
+        <div id="pop-up">
+            <h1>What's new</h1>
+            <ul>
+                <li>New settings: hide faces, always display names.</li>
+                <li>UI changes and additions.</li>
+                <li>Bug fixes.</li>
+            </ul>
+            <button id="pop-up-btn" onclick="closePopUp()">Okay</button>
+        </div>
+    </div>
 
     <div id="player"></div>
     <script src="data.js"></script>

@@ -6,10 +6,29 @@ let currentTime = JSON.parse(localStorage.getItem("currentTime")) || 0;
 let isLooping = false;
 
 // SETTINGS
-let isShowingImage = JSON.parse(localStorage.getItem("isShowingImage")) || true;
+let isNotShowingImage = JSON.parse(localStorage.getItem("isNotShowingImage")) || false;
 let isShowingName = JSON.parse(localStorage.getItem("isShowingName")) || false;
 
+let settings = document.getElementById("settings");
+
 let reciterBtns = [];
+
+let popUpBg = document.getElementById("pop-up-bg");
+
+let storedVersion = JSON.parse(localStorage.getItem("storedVersion")) || null;
+let currentVersion = 0.1;
+
+if (currentVersion !== storedVersion) {
+    popUpBg.style.display = "flex";
+}
+else {
+    popUpBg.style.display = "none";
+}
+
+function closePopUp() {
+    storedVersion = localStorage.setItem("storedVersion", JSON.stringify(currentVersion));
+    popUpBg.style.display = "none";
+}
 
 //#region LOADER
 let loader = document.getElementById("loader");
@@ -18,6 +37,12 @@ function onceLoaded() {
   loader.remove();
 }
 //#endregion
+
+if (isNotShowingImage) settings.children[0].checked = true;
+else settings.children[0].checked = false;
+
+if (isShowingName) settings.children[1].checked = true;
+else settings.children[1].checked = false;
 
 let menu = document.getElementById("menu");
 let arrow = document.querySelector(".arrow");
@@ -163,7 +188,7 @@ function createReciter(reciter) {
   e.setAttribute("data-e", JSON.stringify(reciter));
   e.addEventListener("click", toggleDiv);
 
-  if (!isShowingImage) {
+  if (isNotShowingImage) {
     image.classList.add("hide-image")
   }
   if (isShowingName) {
@@ -480,31 +505,31 @@ function checkPlaying() {
 }
 
 function toggleImage() {
-    if (isShowingImage) {
-        reciterBtns.forEach(reciterBtn => {
-            reciterBtn.children[1].classList.remove("hide-image");
-        });
-        isShowingImage = false;
-    }
-    else {
+    isNotShowingImage = !isNotShowingImage;
+    if (isNotShowingImage) {
         reciterBtns.forEach(reciterBtn => {
             reciterBtn.children[1].classList.add("hide-image");
         });
-        isShowingImage = true;
     }
+    else {
+        reciterBtns.forEach(reciterBtn => {
+            reciterBtn.children[1].classList.remove("hide-image");
+        });
+    }
+    localStorage.setItem("isNotShowingImage", JSON.stringify(isNotShowingImage));
 }
 
 function toggleName() {
+    isShowingName = !isShowingName;
     if (isShowingName) {
         reciterBtns.forEach(reciterBtn => {
             reciterBtn.children[2].firstElementChild.classList.add("show-name");
         });
-        isShowingName = false;
     }
     else {
         reciterBtns.forEach(reciterBtn => {
             reciterBtn.children[2].firstElementChild.classList.remove("show-name");
         });
-        isShowingName = true;
     }
+    localStorage.setItem("isShowingName", JSON.stringify(isShowingName));
 }
