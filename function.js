@@ -213,7 +213,8 @@ function toggleDiv() {
   if (selectionDiv.classList.contains("hidden")) {
     selectionDiv.classList.remove("hidden");
     reciterDiv.classList.add("hidden");
-    selectedReciterImage.src = JSON.parse(this.getAttribute("data-e")).image;
+    if (!isNotShowingImage) selectedReciterImage.src = JSON.parse(this.getAttribute("data-e")).image;
+    else { selectedReciterImage.src = "https://i.pinimg.com/originals/7b/4c/3e/7b4c3e225fe6fc74256f5c1d0608668b.jpg"; }
     selectedReciterName.innerHTML = JSON.parse(this.getAttribute("data-e")).name;
     currentReciter = this;
   }
