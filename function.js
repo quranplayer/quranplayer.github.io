@@ -5,13 +5,17 @@ let currentTime = JSON.parse(localStorage.getItem("currentTime")) || 0;
 
 let isLooping = false;
 
+// SETTINGS
+let isShowingImage = JSON.parse(localStorage.getItem("isShowingImage")) || true;
+let isShowingName = JSON.parse(localStorage.getItem("isShowingName")) || false;
+
+let reciterBtns = [];
+
 //#region LOADER
 let loader = document.getElementById("loader");
 
-loader.remove();
-
 function onceLoaded() {
-  //loader.remove();
+  loader.remove();
 }
 //#endregion
 
@@ -114,19 +118,6 @@ let surahList = document.getElementById("surah-list");
 
 let canShowPhotos = JSON.parse(localStorage.getItem("canShowPhotos"));
 
-/*let imageToggle = document.getElementById("image-toggle");
-
-if (canShowPhotos) imageToggle.style.backgroundColor = "blue";
-else imageToggle.style.backgroundColor = "white";
-
-function togglePhotos() {
-  let toggleItems = document.querySelectorAll(".toggleOff");
-
-  toggleItems.forEach(item => {
-    item.classList.remove("toggleOff");
-  });
-}*/
-
 let myRange = document.getElementById("myRange");
 
 function updateSeek(maxRange) {
@@ -149,17 +140,21 @@ function changeSeek() {
 
 function createReciter(reciter) {
   let e = document.createElement("button");
+  backgroundImage = document.createElement("img");
   let image = document.createElement("img");
   let bgDiv = document.createElement("div");
   let name = document.createElement("p");
   e.classList.add("reciter");
+  backgroundImage.classList.add("reciter-image");
   image.classList.add("reciter-image");
   bgDiv.classList.add("bg-div");
   name.classList.add("reciter-name");
 
+  backgroundImage.src = "https://i.pinimg.com/originals/7b/4c/3e/7b4c3e225fe6fc74256f5c1d0608668b.jpg";
   image.src = reciter.image;
   name.innerHTML = reciter.name;
 
+  e.appendChild(backgroundImage);
   e.appendChild(image);
   recitersDiv.appendChild(e);
   e.appendChild(bgDiv);
@@ -167,6 +162,15 @@ function createReciter(reciter) {
 
   e.setAttribute("data-e", JSON.stringify(reciter));
   e.addEventListener("click", toggleDiv);
+
+  if (!isShowingImage) {
+    image.classList.add("hide-image")
+  }
+  if (isShowingName) {
+    name.classList.add("show-name");
+  }
+  
+  reciterBtns.push(e);
 }
 
 reciters.forEach(reciter => {
@@ -473,4 +477,34 @@ function checkPlaying() {
     }
     else surahList.children[index].classList.remove("selected");
   }
+}
+
+function toggleImage() {
+    if (isShowingImage) {
+        reciterBtns.forEach(reciterBtn => {
+            reciterBtn.children[1].classList.remove("hide-image");
+        });
+        isShowingImage = false;
+    }
+    else {
+        reciterBtns.forEach(reciterBtn => {
+            reciterBtn.children[1].classList.add("hide-image");
+        });
+        isShowingImage = true;
+    }
+}
+
+function toggleName() {
+    if (isShowingName) {
+        reciterBtns.forEach(reciterBtn => {
+            reciterBtn.children[2].firstElementChild.classList.add("show-name");
+        });
+        isShowingName = false;
+    }
+    else {
+        reciterBtns.forEach(reciterBtn => {
+            reciterBtn.children[2].firstElementChild.classList.remove("show-name");
+        });
+        isShowingName = true;
+    }
 }
