@@ -5,8 +5,10 @@ let currentTime = JSON.parse(localStorage.getItem("currentTime")) || 0;
 
 let isLooping = false;
 
+let bgImageSrc = "https://i.dlpng.com/static/png/7015874_preview.png";
+
 // SETTINGS
-let isNotShowingImage = JSON.parse(localStorage.getItem("isNotShowingImage")) || false;
+let isImageHidden = JSON.parse(localStorage.getItem("isImageHidden")) || false;
 let isShowingName = JSON.parse(localStorage.getItem("isShowingName")) || false;
 
 let settings = document.getElementById("settings");
@@ -35,28 +37,29 @@ let loader = document.getElementById("loader");
 
 function onceLoaded() {
   loader.remove();
+
 }
 //#endregion
 
-if (isNotShowingImage) settings.children[0].checked = true;
+if (isImageHidden) settings.children[0].checked = true;
 else settings.children[0].checked = false;
 
-if (isShowingName) settings.children[1].checked = true;
-else settings.children[1].checked = false;
+if (isShowingName) settings.children[0].checked = true;
+else settings.children[0].checked = false;
 
-let menu = document.getElementById("menu");
+let hiddenMenu = document.getElementById("hidden-menu");
 let arrow = document.querySelector(".arrow");
 
 function menuUp() {
-  if (menu.classList.contains("up")) {
-    menu.classList.remove("up");
-    menu.classList.add("down");
-    arrow.classList.remove("rotate");
+  if (hiddenMenu.classList.contains("up")) {
+    hiddenMenu.classList.remove("up");
+    hiddenMenu.classList.add("down");
+    arrow.classList.add("rotate");
   }
   else {
-    menu.classList.remove("down");
-    menu.classList.add("up");
-    arrow.classList.add("rotate");
+    hiddenMenu.classList.remove("down");
+    hiddenMenu.classList.add("up");
+    arrow.classList.remove("rotate");
   }
 }
 
@@ -141,8 +144,6 @@ let recitersDiv = document.getElementById("reciters-div");
 let surahListParent = document.getElementById("surah-list-parent");
 let surahList = document.getElementById("surah-list");
 
-let canShowPhotos = JSON.parse(localStorage.getItem("canShowPhotos"));
-
 let myRange = document.getElementById("myRange");
 
 function updateSeek(maxRange) {
@@ -175,7 +176,7 @@ function createReciter(reciter) {
   bgDiv.classList.add("bg-div");
   name.classList.add("reciter-name");
 
-  backgroundImage.src = "https://i.pinimg.com/originals/7b/4c/3e/7b4c3e225fe6fc74256f5c1d0608668b.jpg";
+  backgroundImage.src = bgImageSrc;
   image.src = reciter.image;
   name.innerHTML = reciter.name;
 
@@ -188,9 +189,10 @@ function createReciter(reciter) {
   e.setAttribute("data-e", JSON.stringify(reciter));
   e.addEventListener("click", toggleDiv);
 
-  if (isNotShowingImage) {
+  if (isImageHidden) {
     image.classList.add("hide-image")
   }
+
   if (isShowingName) {
     name.classList.add("show-name");
   }
@@ -209,14 +211,17 @@ let selectedReciterImageDiv = document.getElementById("selected-reciter-image-di
 let selectedReciterImage = document.getElementById("selected-reciter-image");
 let sectionList = document.getElementById("section-list");
 
+let eStoredImage = null;
+
 function toggleDiv() {
   if (selectionDiv.classList.contains("hidden")) {
     selectionDiv.classList.remove("hidden");
     reciterDiv.classList.add("hidden");
-    if (!isNotShowingImage) selectedReciterImage.src = JSON.parse(this.getAttribute("data-e")).image;
-    else { selectedReciterImage.src = "https://i.pinimg.com/originals/7b/4c/3e/7b4c3e225fe6fc74256f5c1d0608668b.jpg"; }
+    if (!isImageHidden) selectedReciterImage.src = JSON.parse(this.getAttribute("data-e")).image;
+    else { selectedReciterImage.src = bgImageSrc; }
     selectedReciterName.innerHTML = JSON.parse(this.getAttribute("data-e")).name;
     currentReciter = this;
+    eStoredImage = JSON.parse(this.getAttribute("data-e")).image;
   }
   else {
     selectionDiv.classList.add("hidden");
@@ -483,7 +488,8 @@ function updateSurahByControls() {
 
 function updateSurah() {
   ctr.src = `https://www.youtube.com/embed/${currentRecitation.url}?autoplay=1&loop=0&enablejsapi=1&widgetid=1`;
-  reciterImage.src = currentRecitation.image;
+  if (!isImageHidden) reciterImage.src = currentRecitation.image;
+  else reciterImage.src = bgImageSrc;
   surahName.innerHTML = currentRecitation.surah;
   if (currentRecitation.type !== null) recitationType.innerHTML = `(${currentRecitation.type})`;
   else recitationType.innerHTML = "";
@@ -506,24 +512,28 @@ function checkPlaying() {
 }
 
 function toggleImage() {
-    isNotShowingImage = !isNotShowingImage;
-    if (isNotShowingImage) {
-        reciterBtns.forEach(reciterBtn => {
-            reciterBtn.children[1].classList.add("hide-image");
-        });
-    }
-    else {
-        reciterBtns.forEach(reciterBtn => {
-            reciterBtn.children[1].classList.remove("hide-image");
-        });
-    }
-    localStorage.setItem("isNotShowingImage", JSON.stringify(isNotShowingImage));
+  isImageHidden = !isImageHidden;
+  if (isImageHidden) {
+    reciterBtns.forEach(reciterBtn => {
+      reciterBtn.children[1].classList.add("hide-image");
+    });
+    reciterImage.src = bgImageSrc;
+    selectedReciterImage.src = bgImageSrc;
+  }
+  else {
+    reciterBtns.forEach(reciterBtn => {
+      reciterBtn.children[1].classList.remove("hide-image");
+    });
+    if (currentRecitation !== null) reciterImage.src = currentRecitation.image;
+    selectedReciterImage.src = eStoredImage;
+  }
+  localStorage.setItem("isImageHidden", JSON.stringify(isImageHidden));
 }
 
 function toggleName() {
-    isShowingName = !isShowingName;
-    if (isShowingName) {
-        reciterBtns.forEach(reciterBtn => {
+  isShowingName = !isShowingName;
+  if (isShowingName) {
+    reciterBtns.forEach(reciterBtn => {
             reciterBtn.children[2].firstElementChild.classList.add("show-name");
         });
     }

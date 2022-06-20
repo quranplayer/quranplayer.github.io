@@ -20,7 +20,7 @@
                     <h1 id="title">Quran Player</h1>
                     <img class="arrow" src="https://i.imgur.com/7t7Oo4W.png" alt="">
                 </div>
-                <div id="menu" class="down">
+                <div id="hidden-menu" class="up">
                     <a class="option" href="https://discord.gg/ujtaNuzyV2" target="_blank">
                         <img class="add-img" src="https://uploads-ssl.webflow.com/60e73a0bcef2f8e2b9cbf8af/60f9f7c07ae198882c23e1c6_Transparent_Discord_Logo_PNG_Square_2021__Pnggrid.png" alt="">
                         <p>Join the discord to:</p>
@@ -37,27 +37,28 @@
                         <input type="checkbox" id="opt2" name="opt2" onclick="toggleName()">
                         <label for="opt2"> Always display names</label>
                     </div>
-                    <!--<a href="#home" class="option active-text" onclick="togglePage(href)">
+                </div>
+                <div id="menu">
+                    <a href="#" class="page-option active-text" onclick="togglePage(href)">
                         <img src="" alt="">
                         <p>Home</p>
+                        <img class="lock" src="https://www.ethnicmusical.com/wp-content/uploads/2019/04/lock-icon-transparent-8.png" alt="">
                     </a>
-                    <a href="#stream" class="option" onclick="togglePage(href)">
+                    <a href="#" class="page-option" onclick="togglePage(href)">
                         <img src="" alt="">
                         <p>Stream</p>
-                        <p id="live-box">LIVE</p>
+                        <!--<p id="live-box">LIVE</p>-->
+                        <img class="lock" src="https://www.ethnicmusical.com/wp-content/uploads/2019/04/lock-icon-transparent-8.png" alt="">
                     </a>
-                    <a href="#reciters" class="option" onclick="togglePage(href)">
+                    <a href="#reciters" class="page-option" onclick="togglePage(href)">
                         <img src="" alt="">
-                        <p>Reciters</p>
+                        <p style="font-weight: bold; color: #4d70ff">Reciters</p>
                     </a>
-                    <a href="#library" class="option" onclick="togglePage(href)">
+                    <a href="#" class="page-option" onclick="togglePage(href)">
                         <img src="" alt="">
                         <p>Library</p>
+                        <img class="lock" src="https://www.ethnicmusical.com/wp-content/uploads/2019/04/lock-icon-transparent-8.png" alt="">
                     </a>
-                    <a href="#report" class="option" onclick="togglePage(href)">
-                        <img src="" alt="">
-                        <p>Report</p>
-                    </a>-->
                 </div>
                 <h2></h2>
             </section>

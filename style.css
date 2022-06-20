@@ -91,18 +91,40 @@ h1 { margin-right: 7px; }
 #sidebar {
     width: 20%;
     background-color: black;
+    position: relative;
 }
 
-#menu {
+#menu, #hidden-menu {
     display: flex;
     flex-direction: column;
     gap: 20px;
     padding: 20px;
-    padding-top: 0;
+    padding-left: 30px;
+    padding-top: 15px;
+    justify-content: center;
+}
+
+#hidden-menu {
+    position: absolute;
+    background-color: black;
+    width: 100%;
+}
+
+.page-option {
+    text-decoration: none;
+    font-size: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.lock {
+    width: 23px;
+    height: 23px;
 }
 
 .up {
-    transform: translateY(-300px);
+    transform: translateY(-500px);
     transition: 0.3s;
 }
 
@@ -256,12 +278,12 @@ h1 { margin-right: 7px; }
 .arrow {
     width: 25px;
     height: 23px;
-    transform: rotate(-90deg);
+    transform: rotate(90deg);
     transition: 0.3s;
 }
 
 .rotate {
-    transform: rotate(90deg);
+    transform: rotate(-90deg);
     transform: 0.3s;
 }
 
@@ -412,8 +434,6 @@ h1 { margin-right: 7px; }
     height: 100%;
     overflow: hidden;
     display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 #no-data {
@@ -481,7 +501,7 @@ h1 { margin-right: 7px; }
 }
 
 #heart:hover {
-    cursor: pointer;
+    cursor: no-drop;
 }
 
 #audio-control {
