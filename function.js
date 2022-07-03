@@ -243,9 +243,16 @@ let sectionList;
 
 let eStoredImage = null;
 
+function showWhichImage(storedDataAttribute) {
+  if (isImageHidden) return bgImageSrc;
+  else return storedDataAttribute.image;
+}
+
 function toggleDiv(event) {
   typeIndex = 0;
   let selectedDiv = document.createElement("div");
+
+  eStoredImage = JSON.parse(event.target.getAttribute("data-e")).image;
 
   if (event.target.classList.contains("reciter")) recitersDiv.appendChild(selectedDiv);
   else content.appendChild(selectedDiv);
@@ -284,7 +291,7 @@ function toggleDiv(event) {
   <div id="selection-content">
     <div id="reciter-info">
       <div id="selected-reciter-image-div">
-        <img id="selected-reciter-image" src="${storedDataAttribute.image}" alt="">
+        <img id="selected-reciter-image" src="${showWhichImage(storedDataAttribute)}" alt="">
       </div>
     </div>
     <div id="surah-section-parent">
@@ -320,6 +327,8 @@ function toggleDivOnLoad(object) {
 
   storedDataAttribute = object;
 
+  eStoredImage = storedDataAttribute.image;
+
   let markup = `
   <div class="top">
     <a href="#" class="back-button" onclick="removeDiv(event)">
@@ -330,7 +339,7 @@ function toggleDivOnLoad(object) {
   <div id="selection-content">
     <div id="reciter-info">
       <div id="selected-reciter-image-div">
-        <img id="selected-reciter-image" src="${storedDataAttribute.image}" alt="">
+        <img id="selected-reciter-image" src="${showWhichImage(storedDataAttribute)}" alt="">
       </div>
     </div>
     <div id="surah-section-parent">
@@ -846,6 +855,9 @@ function checkPlaying() {
 
 function toggleImage() {
   isImageHidden = !isImageHidden;
+
+  let selectedReciterImage = document.getElementById("selected-reciter-image");
+
   if (isImageHidden) {
     reciterBtns.forEach(reciterBtn => {
       reciterBtn.children[1].classList.add("hide-image");
@@ -858,8 +870,10 @@ function toggleImage() {
       reciterBtn.children[1].classList.remove("hide-image");
     });
     if (currentRecitation !== null) reciterImage.src = currentRecitation.image;
+    
     selectedReciterImage.src = eStoredImage;
   }
+
   localStorage.setItem("isImageHidden", JSON.stringify(isImageHidden));
 }
 

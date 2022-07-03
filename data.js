@@ -8171,7 +8171,7 @@ let lahooni_alfalaq_0 = new Surah(lahooni, surahNames[113], 0, "LK6Wey4Hjos");
 let lahooni_annas_0 = new Surah(lahooni, surahNames[114], 0, "DC71w9Saq2Q");
 //#endregion
 
-let sufi = new Reciter("Abdur-Rasheed Sufi", "https://tvquran.com/uploads/authors/images/%D8%B9%D8%A8%D8%AF%20%D8%A7%D9%84%D8%B1%D8%B4%D9%8A%D8%AF%20%D8%A8%D9%86%20%D8%B9%D9%84%D9%8A%20%D8%B5%D9%88%D9%81%D9%8A.jpg", [null]);
+let sufi = new Reciter("Abdur-Rasheed Sufi", "https://tvquran.com/uploads/authors/images/%D8%B9%D8%A8%D8%AF%20%D8%A7%D9%84%D8%B1%D8%B4%D9%8A%D8%AF%20%D8%A8%D9%86%20%D8%B9%D9%84%D9%8A%20%D8%B5%D9%88%D9%81%D9%8A.jpg", ["Hafs"]);
 sufi.urlName = Object.keys({sufi})[0];
 //#region
 let sufi_alfatihah_0 = new Surah(sufi, surahNames[1], 0, "3VHbHIV_mPY");
