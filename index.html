@@ -5,18 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Quranify</title>
+    <link rel="icon" type="image/x-icon" href="https://cdn.discordapp.com/attachments/985163155233722419/987971423849021440/B0D346A6-9A29-4A3B-8AEE-0CEFD2D9CEFB.png">
+    <title>Quran Player</title>
 </head>
 <body onload="onceLoaded()">
-    <div id="loader">
+    <div id="loader" style="display: none">
         <div id="circle"></div>
-        <h1 id="loader-title">Quranify</h1>
+        <h1 id="loader-title">Quran Player</h1>
     </div>
 
     <div id="wrapper">
         <div id="a">
             <section id="sidebar">
                 <div id="title-div" onclick="menuUp()">
+                    <img id="logo" src="https://cdn.discordapp.com/attachments/985163155233722419/987971423849021440/B0D346A6-9A29-4A3B-8AEE-0CEFD2D9CEFB.png" alt="">
                     <h1 id="title">Quran Player</h1>
                     <img class="arrow" src="https://i.imgur.com/7t7Oo4W.png" alt="">
                 </div>
@@ -39,25 +41,24 @@
                     </div>
                 </div>
                 <div id="menu">
-                    <a href="#" class="page-option active-text" onclick="togglePage(href)">
-                        <img src="" alt="">
+                    <a id="home" href="#home" class="page-option" onclick="togglePage(id, event)" style="display: none">
+                        <img class="page-option-icon" src="https://www.nicepng.com/png/full/115-1153942_white-home-icon-png-white-home-logo-transparent.png" alt="">
                         <p>Home</p>
-                        <img class="lock" src="https://www.ethnicmusical.com/wp-content/uploads/2019/04/lock-icon-transparent-8.png" alt="">
                     </a>
-                    <a href="#" class="page-option" onclick="togglePage(href)">
+                    <!--<a id="stream" href="#" class="page-option" onclick="togglePage(id)">
                         <img src="" alt="">
+                        <img class="page-option-icon" src="https://www.ethnicmusical.com/wp-content/uploads/2019/04/lock-icon-transparent-8.png" alt="">
                         <p>Stream</p>
-                        <!--<p id="live-box">LIVE</p>-->
-                        <img class="lock" src="https://www.ethnicmusical.com/wp-content/uploads/2019/04/lock-icon-transparent-8.png" alt="">
+                        <p id="live-box">LIVE</p>
+                    </a>-->
+                    <a id="reciters" href="#reciters" class="page-option" onclick="togglePage(id, event)">
+                        <img class="page-option-icon" src="https://www.pngkit.com/png/full/940-9406687_already-a-proact-user-employee-icon-white-png.png" alt="">
+                        <p>Reciters</p>
+                        <p id="reciters-count"></p>
                     </a>
-                    <a href="#reciters" class="page-option" onclick="togglePage(href)">
-                        <img src="" alt="">
-                        <p style="font-weight: bold; color: #4d70ff">Reciters</p>
-                    </a>
-                    <a href="#" class="page-option" onclick="togglePage(href)">
-                        <img src="" alt="">
+                    <a id="library" href="#library" class="page-option hidden" onclick="togglePage(id, event)">
+                        <img style="filter: invert(1)" class="page-option-icon" src="https://cdn0.iconfinder.com/data/icons/spotify-line-ui-kit/100/your-library-line-512.png" alt="">
                         <p>Library</p>
-                        <img class="lock" src="https://www.ethnicmusical.com/wp-content/uploads/2019/04/lock-icon-transparent-8.png" alt="">
                     </a>
                 </div>
                 <h2></h2>
@@ -65,8 +66,23 @@
     
             <section id="content">
                 <div class="page home">
-                    <div class="selected-reciter-div">
-                        <div class="surah-recitation"></div>
+                    <div id="playlist-section">
+                        <button class="playlist-box" onclick="">
+                            <h1></h1>
+                            <img src="" alt="">
+                        </button>
+                        <button class="playlist-box" onclick="">
+                            <h1></h1>
+                            <img src="" alt="">
+                        </button>
+                        <button class="playlist-box" onclick="">
+                            <h1></h1>
+                            <img src="" alt="">
+                        </button>
+                    </div>
+                    <div id="recently-played" style="display: none">
+                        <h1>Recently Played</h1>
+                        <div id="recently-played-div"></div>
                     </div>
                 </div>
                 <!--<div class="page stream">
@@ -93,66 +109,27 @@
                     </div>
                 </div>-->
                 <div class="page reciters">
-                    <!--<div class="abc">
-                        <a href="#a" class="letter-nav">A</a>
-                        <a href="#b" class="letter-nav">B</a>
-                        <a href="#c" class="letter-nav">C</a>
-                        <a href="#d" class="letter-nav">D</a>
-                        <a href="#e" class="letter-nav">E</a>
-                        <a href="#f" class="letter-nav">F</a>
-                        <a href="#g" class="letter-nav">G</a>
-                        <a href="#h" class="letter-nav">H</a>
-                        <a href="#i" class="letter-nav">I</a>
-                        <a href="#j" class="letter-nav">J</a>
-                        <a href="#k" class="letter-nav">K</a>
-                        <a href="#l" class="letter-nav">L</a>
-                        <a href="#m" class="letter-nav">M</a>
-                        <a href="#n" class="letter-nav">N</a>
-                        <a href="#o" class="letter-nav">O</a>
-                        <a href="#p" class="letter-nav">P</a>
-                        <a href="#q" class="letter-nav">Q</a>
-                        <a href="#r" class="letter-nav">R</a>
-                        <a href="#s" class="letter-nav">S</a>
-                        <a href="#t" class="letter-nav">T</a>
-                        <a href="#u" class="letter-nav">U</a>
-                        <a href="#v" class="letter-nav">V</a>
-                        <a href="#w" class="letter-nav">W</a>
-                        <a href="#x" class="letter-nav">X</a>
-                        <a href="#y" class="letter-nav">Y</a>
-                        <a href="#z" class="letter-nav">Z</a>
-                    </div>-->
                     <div id="right-side-div">
-                        <!--<div id="search-bar-div">
-                            <input id="search-bar" placeholder="Search reciter"></input>
+                        <div id="search-bar-div">
+                            <input id="search-bar" placeholder="Search reciter" oninput="searchInput(value)">
+                            <div id="tags-div-section">
+                                <h3>Tags:</h3>
+                                <div id="tags-div"></div>
+                            </div>
+                            <p id="query-result-count"></p>
                         </div>
-                        <div id="image-toggle" onclick="togglePhotos()">
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAdVBMVEUAAAD///8NDQ329vb5+flhYWHx8fEICAi6urqXl5caGhrn5+dycnKKiopKSkrt7e0tLS2goKBDQ0N7e3vExMQlJSVnZ2fd3d2srKxbW1vPz881NTUWFhanp6dISEhsbGy0tLSCgoKHh4cyMjJUVFTNzc2ZmZncTGCkAAAFKElEQVR4nO2d6XaqMBCAQ1kEAQWlQNW2trft+z/i1aqtdUvIMpPE+f71nJ7JfIdFEmYIC85I0iyuxiPmFqNxFWdpcq7DTv7O6xl2rkrM6vymYV5gZ6iBIr9qGM2xk9PEPLps2GAnppHmkmGJnZVWynPDFjsnzbSnhhPsjLQz+Wvo2xHc0h4b+nUNHih/DX26ix7THAwj7EyMEe0NffmhP2e+M8yx8zBI/m3ow7PoNYqtoc+HcHsQWVBjJ2GUemPo9nyQxyxgCXYOhklYip2CYVKWYadgmIzF2CkYJmYVdgqGqdgYOwXDjJlr66JDueEXuIWEPHbKAyFDMrQfMiRD+yFDMrQfMiRD+yFDMrQfMiRD+yFDMrQfMiRD+yFDMrQfMiRD+yFDMtRFFCZhxP83CSwwTJqsnSyrcbWctFlzoUFJDWzDsD8tn5v1odYRcA2vtFMVp01YKmAaTq9XWc+n2kZBNOxvjtLrGgbNMHziDPOk6XLEMuxW3HFWnZaRkAwXQiMtdAyFYygmqEcRxbATHkvDiYphGD4Ij/WgfrvBMOTdRY95ctHwedBoz+4ZTgcOp/p0A284tJuqcM1weDeV4mM4uOHwhjjFgwhtKNOWqjb3hza8PaG4jNo0A9rwRWLAF5cMpzJdHCOlHwxgw0+J8Rj7dMhQriEuc8jwVcrw1SFDue+ITPiBbTGMllKGS5VfRFjD8FHK8FFllghrmPDXny6xUlnqhzX0/xj6fx36fy+9g99D/59p/H8u9X9uIXWrUbrR0Bxfu6H/6zT+r7XdwXqp/2ved/Dewv93T3fw/jAIBwzm5jtg/9/j30Etxh3U02xOVP4kY+R0TdTmAZX3PbhYU8kwmqH/tYkbptcf4Aov6ksD/2uEtyT9x997zuij11vMjm24YdqUxUu1YqvqpSgbfafnHgsMv4nC0N9+C8OQIRnaDxmSof2QIRnaDxmSof2QIRnaDxmSof2QIRlqIMy7z3Td1/06bRZdrnvFDdEwShZ9Fl+oi17Ov9adtrVFJMM8fXviVESvPt4bHav7CIZdWggXQy9fe9XXpMCG03Ur3qp+YPKsciwhDbsv6c3qHsuF7HUJZpjL6+34V8q99QYyTD/U9HYsZQqkIAwTjZvUvQ2+JM0bdpq3M20HnqymDa+8x1bidZCjxAADokeGdhR+t8VwrVnsl4fGBsNcy/3zGsKlwxKxBSOb3sd0KXhXlQgtFhhg33mxM1UisFBco2foASFFibgiYYcUOisg0vIlEVYgaqvd5QoCv4wSUflBAa7BPTMcQ9EaZx18oRiC7rPLrYOTiMkLudbscBtuB61ETF5I2F3nH+ENxZsp9MBbqZIIyYko0yWqAm/eLxGSE/Fdu8Nt3sANwX7t97Tghrw+Ct3EZDgcMtTucBsylAhJhtodbkOGEiHJkD1AgmAYQgNuaBtkSIb2Q4ZkaD9kSIb2Q4ZkaD9kSIb2Q4ZkaD9kSIb2Q4Y+G8p8Pd0lRgy0dguBMauwUzBMxaDfIUETM42tPFaSMdO19tikLMFOwTAJA66ihGYWsKDGTsIo9cZw+C4GLpFvDCW2onCHItga+nwQ82/DwFD3oAXMg52hzKYwbhDtDYMGOxNDfLeE7aaBcP09kJTBryF41TYE+8rww1Rebj8/mzlsAfazWOHbUfyp7f9djvHrWiyDc0Ov7qhHjbXHS2qmPhwAzvz4EzB/Fw1NfPwBnJMtF06XRfPa7fnirD7t37+w8JukWVyNXVtHHY2rOEsv7CjxH2GYgEiNskprAAAAAElFTkSuQmCC" alt="">
-                        </div>-->
-                        <h3 id="reciters-count"></h3>
-                        <div id="reciters-div"></div>
+                        <div id="reciters-div">
+                        </div>
+                        <a class="no-results hidden" href="https://discord.gg/ujtaNuzyV2" target="_blank">
+                            <img id="plus-icon" src="https://static.thenounproject.com/png/261370-200.png" alt="">
+                            <p>Suggest a reciter/recitation</p>
+                        </a>
                     </div>
                 </div>
-                <!--<div class="page library"></div>-->
-                <div id="selection-div" class="page hidden">
-                    <div id="top">
-                        <button id="back-button" onclick="toggleDiv()">
-                            <img src="https://i.imgur.com/7t7Oo4W.png" alt="">
-                        </button>
-                        <h3 id="selected-reciter-name"></h3>
-                    </div>
-                    <div id="selection-content">
-                        <div id="reciter-info">
-                            <div id="selected-reciter-image-div">
-                                <img id="selected-reciter-image" src="" alt="">
-                            </div>
-                        </div>
-                        <div id="surah-section-parent">
-                            <div id="section-list"></div>
-                            <div id="surah-list-parent">
-                                <p id="no-data">No data</p>
-                                <div id="surah-list"></div>
-                            </div>
-                        </div>
+                <div class="page library">
+                    <div id="favourites-list">
+                        <h1>Favourites</h1>
+                        <div id="favourites-list-div"></div>
                     </div>
                 </div>
             </section>
@@ -160,17 +137,21 @@
 
         <div class="listen">
             <div id="left-side-parent">
-                <div id="player-image-div">
+                <button id="player-image-div" onclick="toggleDiv(event)">
                     <img src="" alt="" id="player-image">
-                </div>
+                </button>
                 <div id="info-parent">
                     <div id="surah-name-parent">
                         <h3 id="surah-name">Nothing is playing</h3>
                         <h3 id="recitation-type"></h3>
                     </div>
                     <p id="reciter-name"></p>
+                    <div id="from-playlist" style="display: none">
+                        <p id="from-playlist-text">Playing from Haramayn</p>
+                        <img id="from-playlist-arrow" src="https://icons-for-free.com/download-icon-arrows+chevron+direction+forward+next+right+icon-1320085938847587870_0.svg" alt="">
+                    </div>
                 </div>
-                <button id="heart">
+                <button id="heart" onclick="toggleFavourite()" style="display: none">
                     <img src="https://www.seekpng.com/png/full/978-9785412_white-heart-transparent-background-heart-icon-white.png" alt="">
                 </button>
             </div>
@@ -180,6 +161,9 @@
                     <div id="player-controls">
                         <div id="loop" class="circle-div" onclick="toggleLoop()">
                             <img src="https://www.shareicon.net/data/2015/08/23/89608_loop_512x512.png" alt="">
+                        </div>
+                        <div id="shuffle" class="circle-div" onclick="toggleShuffle()">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3580/3580329.png" alt="">
                         </div>
                         <div id="play-previous" onclick="previousSurah()">
                             <img src="https://snipstock.com/assets/cdn/png/6a77bdb0b68e47162e109dfae5b6fd69.png" alt="">
@@ -199,6 +183,9 @@
                         <div id="playback-div" class="circle-div" onclick="changePlaybackSpeed()">
                             <p id="playback-text">1</p>
                         </div>
+                        <div id="shuffle" class="circle-div hidden" onclick="toggleShuffle()">
+                            <img src="https://cdn.discordapp.com/attachments/982247097610952728/992357342089846875/Untitled_Artwork.png" alt="">
+                        </div>
                     </div>
                     <div id="audio-control">
                         <p id="current-time">0:00</p>
@@ -216,15 +203,20 @@
         </div>
     </div>
 
+    <div id="active-page-line"></div>
+
     <button id="reset" onclick="reset()">RESET</button>
 
-    <div id="pop-up-bg">
+    <div id="pop-up-bg" style="display: none">
         <div id="pop-up">
             <h1>What's new</h1>
             <ul>
-                <li>New settings: hide faces, always display names.</li>
-                <li>UI changes and additions.</li>
-                <li>Bug fixes.</li>
+                <li>10 new reciters</li>
+                <li>Search reciters by input or tags</li>
+                <li>Shuffle mode</li>
+                <li>Reciter URLs (subject to change)</li>
+                <li>Fixes to next and previous buttons</li>
+                <li>Other bug fixes and quality of life improvements</li>
             </ul>
             <button id="pop-up-btn" onclick="closePopUp()">Okay</button>
         </div>
