@@ -126,7 +126,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="page library">
+                <div class="page library hidden">
                     <div id="favourites-list">
                         <h1>Favourites</h1>
                         <div id="favourites-list-div"></div>
@@ -137,15 +137,15 @@
 
         <div class="listen">
             <div id="left-side-parent">
-                <button id="player-image-div" onclick="toggleDiv(event)">
-                    <img src="" alt="" id="player-image">
-                </button>
+                <a class="player-image-div" onclick="toggleDiv(event)">
+                    <img src="" alt="" class="player-image">
+                </a>
                 <div id="info-parent">
-                    <div id="surah-name-parent">
-                        <h3 id="surah-name">Nothing is playing</h3>
-                        <h3 id="recitation-type"></h3>
+                    <div>
+                        <h3 class="surah-name">Nothing is playing</h3>
+                        <h3 class="recitation-type"></h3>
                     </div>
-                    <p id="reciter-name"></p>
+                    <p class="player-name"></p>
                     <div id="from-playlist" style="display: none">
                         <p id="from-playlist-text">Playing from Haramayn</p>
                         <img id="from-playlist-arrow" src="https://icons-for-free.com/download-icon-arrows+chevron+direction+forward+next+right+icon-1320085938847587870_0.svg" alt="">
@@ -162,7 +162,7 @@
                         <div id="loop" class="circle-div" onclick="toggleLoop()">
                             <img src="https://www.shareicon.net/data/2015/08/23/89608_loop_512x512.png" alt="">
                         </div>
-                        <div id="shuffle" class="circle-div" onclick="toggleShuffle()">
+                        <div class="shuffle circle-div" onclick="toggleShuffle()">
                             <img src="https://cdn-icons-png.flaticon.com/512/3580/3580329.png" alt="">
                         </div>
                         <div id="play-previous" onclick="previousSurah()">
@@ -171,8 +171,8 @@
                         <div id="go-back" onclick="goBack()">
                             <img src="https://www.pngall.com/wp-content/uploads/11/Fast-Forward-Button-PNG-Image.png" alt="">
                         </div>
-                        <div id="play-pause" data-video="" data-autoplay="0" data-loop="0" onclick="playToggle(event)">
-                            <img src="https://www.pngall.com/wp-content/uploads/9/White-Play-Silhoutte-PNG1.png" alt="" id="youtube-icon">
+                        <div class="play-pause" data-video="" data-autoplay="0" data-loop="0" onclick="playToggle(event)">
+                            <img src="https://www.pngall.com/wp-content/uploads/9/White-Play-Silhoutte-PNG1.png" alt="" class="youtube-icon">
                         </div>
                         <div id="go-forward" onclick="goForward()">
                             <img src="https://www.pngall.com/wp-content/uploads/11/Fast-Forward-Button-PNG-Image.png" alt="">
@@ -183,24 +183,74 @@
                         <div id="playback-div" class="circle-div" onclick="changePlaybackSpeed()">
                             <p id="playback-text">1</p>
                         </div>
-                        <div id="shuffle" class="circle-div hidden" onclick="toggleShuffle()">
-                            <img src="https://cdn.discordapp.com/attachments/982247097610952728/992357342089846875/Untitled_Artwork.png" alt="">
-                        </div>
                     </div>
-                    <div id="audio-control">
-                        <p id="current-time">0:00</p>
-                        <div id="line">
-                            <input type="range" min="0" max="0" value="0" class="slider" id="myRange" onmousedown="startChange()" onmouseup="changeSeek()">
+                    <div class="audio-control">
+                        <p class="current-time">0:00</p>
+                        <div class="line">
+                            <input type="range" min="0" max="0" value="0" class="slider myRange" onmousedown="startChange()" onmouseup="changeSeek(value)">
                         </div>
-                        <p id="full-time">0:00</p>
+                        <p class="full-time">0:00</p>
                     </div>
                 </div>
             </div>
 
             <div id="right-side-parent">
-        
+                <button id="show-now-playing-button" onclick="toggleNowPlaying()">
+                    <img src="https://i.imgur.com/7t7Oo4W.png" alt="">
+                </button>
             </div>
         </div>
+    </div>
+
+    <div class="now-playing" style="display: flex">
+        <button id="now-playing-image-div">
+            <img src="" alt="" class="player-image">
+        </button>
+        <div id="info-parent">
+            <div class="center-name">
+                <h3 class="surah-name">Nothing is playing</h3>
+                <h3 class="recitation-type"></h3>
+            </div>
+            <p class="player-name center-name"></p>
+        </div>
+
+        <div id="player-controls">
+            <div id="loop" class="circle-div" onclick="toggleLoop()">
+                <img src="https://www.shareicon.net/data/2015/08/23/89608_loop_512x512.png" alt="">
+            </div>
+            <div class="shuffle circle-div" onclick="toggleShuffle()">
+                <img src="https://cdn-icons-png.flaticon.com/512/3580/3580329.png" alt="">
+            </div>
+            <div id="play-previous" onclick="previousSurah()">
+                <img src="https://snipstock.com/assets/cdn/png/6a77bdb0b68e47162e109dfae5b6fd69.png" alt="">
+            </div>
+            <div id="go-back" onclick="goBack()">
+                <img src="https://www.pngall.com/wp-content/uploads/11/Fast-Forward-Button-PNG-Image.png" alt="">
+            </div>
+            <div class="play-pause" data-video="" data-autoplay="0" data-loop="0" onclick="playToggle(event)">
+                <img src="https://www.pngall.com/wp-content/uploads/9/White-Play-Silhoutte-PNG1.png" alt="" class="youtube-icon">
+            </div>
+            <div id="go-forward" onclick="goForward()">
+                <img src="https://www.pngall.com/wp-content/uploads/11/Fast-Forward-Button-PNG-Image.png" alt="">
+            </div>
+            <div id="play-next" onclick="nextSurah()">
+                <img src="https://snipstock.com/assets/cdn/png/6a77bdb0b68e47162e109dfae5b6fd69.png" alt="">
+            </div>
+            <div id="playback-div" class="circle-div" onclick="changePlaybackSpeed()">
+                <p id="playback-text">1</p>
+            </div>
+        </div>
+        <div class="audio-control">
+            <p class="current-time">0:00</p>
+            <div class="line">
+                <input type="range" min="0" max="0" value="0" class="slider myRange" onmousedown="startChange()" onmouseup="changeSeek(value)">
+            </div>
+            <p class="full-time">0:00</p>
+        </div>
+
+        <button id="hide-now-playing-button" onclick="toggleNowPlaying()">
+            <img src="https://i.imgur.com/7t7Oo4W.png" alt="">
+        </button>
     </div>
 
     <div id="active-page-line"></div>
@@ -211,12 +261,9 @@
         <div id="pop-up">
             <h1>What's new</h1>
             <ul>
-                <li>10 new reciters</li>
-                <li>Search reciters by input or tags</li>
-                <li>Shuffle mode</li>
-                <li>Reciter URLs (subject to change)</li>
-                <li>Fixes to next and previous buttons</li>
-                <li>Other bug fixes and quality of life improvements</li>
+                <li>Click the arrow in the controls tab for a full display of the tab</li>
+                <li>Click reciter's image in the controls tab to view the reciter's page</li>
+                <li>Other changes and fixes</li>
             </ul>
             <button id="pop-up-btn" onclick="closePopUp()">Okay</button>
         </div>

@@ -28,7 +28,7 @@ let reciterBtns = [];
 let popUpBg = document.getElementById("pop-up-bg");
 
 let storedVersion = JSON.parse(localStorage.getItem("storedVersion")) || null;
-let currentVersion = 0.2;
+let currentVersion = 0.3;
 
 if (currentVersion !== storedVersion) {
     popUpBg.style.display = "flex";
@@ -104,6 +104,8 @@ function onYouTubeIframeAPIReady() {
   if (currentRecitation !== null) updateSurah();
 }
 
+let icon = document.querySelectorAll(".youtube-icon");
+
 let isStartIcon = true;
 
 function onPlayerReady(event) {
@@ -113,33 +115,32 @@ function onPlayerReady(event) {
   updateSeek(player.getDuration());
 
   if (isStartIcon) {
-    icon.src = "https://www.pngall.com/wp-content/uploads/9/White-Play-Silhoutte-PNG1.png";
+    icon[0].src = "https://www.pngall.com/wp-content/uploads/9/White-Play-Silhoutte-PNG1.png";
+    icon[1].src = "https://www.pngall.com/wp-content/uploads/9/White-Play-Silhoutte-PNG1.png";
     isStartIcon = false;
   }
   else {
-    icon.src = "https://icons.veryicon.com/png/o/object/material-design-icons-1/pause-38.png";
+    icon[0].src = "https://icons.veryicon.com/png/o/object/material-design-icons-1/pause-38.png";
+    icon[1].src = "https://icons.veryicon.com/png/o/object/material-design-icons-1/pause-38.png";
   }
 
   canCheck = true;
 }
 
-let icon = document.getElementById("youtube-icon");
-icon.style.transform = "translateX(1.5px)";
-
 let isPlaying = false;
 
 function playToggle() {
-  if (isPlaying) {
+  if (!isPlaying && currentRecitation !== null) {
     player.playVideo();
-    icon.src = "https://icons.veryicon.com/png/o/object/material-design-icons-1/pause-38.png";
-    icon.style.transform = "translateX(0)";
-    isPlaying = false;
-  }
-  else if (!isPlaying && currentRecitation !== null) {
-    player.pauseVideo();
-    icon.src = "https://www.pngall.com/wp-content/uploads/9/White-Play-Silhoutte-PNG1.png";
-    icon.style.transform = "translateX(1.5px)";
+    icon[0].src = "https://icons.veryicon.com/png/o/object/material-design-icons-1/pause-38.png";
+    icon[1].src = "https://icons.veryicon.com/png/o/object/material-design-icons-1/pause-38.png";
     isPlaying = true;
+  }
+  else if (isPlaying) {
+    player.pauseVideo();
+    icon[0].src = "https://www.pngall.com/wp-content/uploads/9/White-Play-Silhoutte-PNG1.png";
+    icon[1].src = "https://www.pngall.com/wp-content/uploads/9/White-Play-Silhoutte-PNG1.png";
+    isPlaying = false;
   }
 }
 //#endregion
@@ -157,24 +158,24 @@ let recitersDiv = document.getElementById("reciters-div");
 let surahListParent = null;
 let surahList = null;
 
-let myRange = document.getElementById("myRange");
+let myRange = document.querySelectorAll(".myRange");
 
 function updateSeek(maxRange) {
-  myRange.value = 0;
-  myRange.max = maxRange;
+  myRange[0].value = 0;
+  myRange[1].value = 0;
+  myRange[0].max = maxRange;
+  myRange[1].max = maxRange;
 }
 
 let isChanging = false;
 
 function startChange() {
   isChanging = true;
-  console.log(isChanging);
 }
 
-function changeSeek() {
-  console.log(myRange.value);
-  player.seekTo(myRange.value);
+function changeSeek(value) {
   isChanging = false;
+  player.seekTo(value);
 }
 
 function createReciter(reciter) {
@@ -252,18 +253,21 @@ function toggleDiv(event) {
   typeIndex = 0;
   let selectedDiv = document.createElement("div");
 
-  eStoredImage = JSON.parse(event.target.getAttribute("data-e")).image;
+  if (event.target.hasAttribute("data-e")) {
+    eStoredImage = JSON.parse(event.target.getAttribute("data-e")).image;
+  }
 
   if (event.target.classList.contains("reciter")) recitersDiv.appendChild(selectedDiv);
   else content.appendChild(selectedDiv);
 
   let storedDataAttribute;
 
-  if (event.target.id === "player-image-div") {
+  if (event.target.classList.contains("player-image-div")) {
     for (let i = 0; i < reciters.length; i++) {
       if (event.target.getAttribute("data-name") === reciters[i].name) {
         currentReciter = reciters[i];
         storedDataAttribute = JSON.stringify(reciters[i]);
+        event.target.href = "#" + currentReciter.urlName;
         break;
       }
     }
@@ -326,7 +330,6 @@ function toggleDivOnLoad(object) {
   let storedDataAttribute;
 
   storedDataAttribute = object;
-
   eStoredImage = storedDataAttribute.image;
 
   let markup = `
@@ -368,7 +371,7 @@ function toggleDivOnLoad(object) {
 
 function editURL(t) {
   let url = window.location.href.split("#")[0];
-  url.concat("#" + eval(t.urlName));
+  url.concat("#" + t.urlName);
 }
 
 function togglePlaylist() {
@@ -628,15 +631,19 @@ function goForward() {
 }
 
 //#region LINE
-let currentTimeText = document.getElementById("current-time");
-let fullTimeText = document.getElementById("full-time");
+let currentTimeText = document.querySelectorAll(".current-time");
+let fullTimeText = document.querySelectorAll(".full-time");
 
 function updateLine() {
-  currentTimeText.innerHTML = Math.round(player.getCurrentTime());
+  currentTimeText[0].innerHTML = Math.round(player.getCurrentTime());
+  currentTimeText[1].innerHTML = Math.round(player.getCurrentTime());
   currentTime = player.getCurrentTime();
   localStorage.setItem("currentTime", JSON.stringify(currentTime));
   setCurrentTimeText();
-  if (!isChanging) myRange.value = player.getCurrentTime();
+  if (!isChanging) {
+    myRange[0].value = player.getCurrentTime();
+    myRange[1].value = player.getCurrentTime();
+  }
   if (player.getDuration() > 0) {
     if (currentTime === player.getDuration() && canCheck) {
       nextSurah();
@@ -661,10 +668,17 @@ function setTimeText() {
 
   if (hour_is_the_max) {
     if (minutes < 10) {minutes = "0"+minutes;}
-    fullTimeText.innerHTML = hours + ':' + minutes + ':' + seconds;
+    fullTimeText[0].innerHTML = hours + ':' + minutes + ':' + seconds;
+    fullTimeText[1].innerHTML = hours + ':' + minutes + ':' + seconds;
   }
-  else if (minute_is_the_max) fullTimeText.innerHTML = minutes + ':' + seconds;
-  else if (second_is_the_max) fullTimeText.innerHTML = minutes + ':' + seconds;
+  else if (minute_is_the_max) {
+    fullTimeText[0].innerHTML = minutes + ':' + seconds;
+    fullTimeText[1].innerHTML = minutes + ':' + seconds;
+  }
+  else if (second_is_the_max) {
+    fullTimeText[0].innerHTML = minutes + ':' + seconds;
+    fullTimeText[1].innerHTML = minutes + ':' + seconds;
+  }
 }
 
 function setCurrentTimeText() {
@@ -683,10 +697,17 @@ function setCurrentTimeText() {
 
   if (hour_is_the_max) {
     if (minutes < 10) {minutes = "0"+minutes;}
-    currentTimeText.innerHTML = hours + ':' + minutes + ':' + seconds;
+    currentTimeText[0].innerHTML = hours + ':' + minutes + ':' + seconds;
+    currentTimeText[1].innerHTML = hours + ':' + minutes + ':' + seconds;
   }
-  else if (minute_is_the_max) currentTimeText.innerHTML = minutes + ':' + seconds;
-  else if (second_is_the_max) currentTimeText.innerHTML = minutes + ':' + seconds;
+  else if (minute_is_the_max) {
+    currentTimeText[0].innerHTML = minutes + ':' + seconds;
+    currentTimeText[1].innerHTML = minutes + ':' + seconds;
+  }
+  else if (second_is_the_max) {
+    currentTimeText[0].innerHTML = minutes + ':' + seconds;
+    currentTimeText[1].innerHTML = minutes + ':' + seconds;
+  }
 }
 
 window.setInterval(updateLine, 500);
@@ -705,10 +726,10 @@ function changePlaybackSpeed() {
 }
 //#endregion
 
-let reciterImage = document.getElementById("player-image");
-let surahName = document.getElementById("surah-name");
-let recitationType = document.getElementById("recitation-type");
-let reciterName = document.getElementById("reciter-name");
+let reciterImage = document.querySelectorAll(".player-image");
+let surahName = document.querySelectorAll(".surah-name");
+let recitationType = document.querySelectorAll(".recitation-type");
+let reciterName = document.querySelectorAll(".player-name");
 
 function keepIndexInCheck(isNext) {
   for (let index = 0; index < currentRecitationsList.length; index++) {
@@ -826,13 +847,27 @@ function updateSurahByControls() {
 
 function updateSurah() {
   ctr.src = `https://www.youtube.com/embed/${currentRecitation.url}?autoplay=1&loop=0&enablejsapi=1&widgetid=1`;
-  if (!isImageHidden) reciterImage.src = currentRecitation.image;
-  else reciterImage.src = bgImageSrc;
-  reciterImage.parentElement.setAttribute("data-name", currentRecitation.name);
-  surahName.innerHTML = currentRecitation.surah;
-  if (currentRecitation.type !== null) recitationType.innerHTML = `(${currentRecitation.type})`;
-  else recitationType.innerHTML = "";
-  reciterName.innerHTML = currentRecitation.name;
+  if (!isImageHidden) { 
+    reciterImage[0].src = currentRecitation.image;
+    reciterImage[1].src = currentRecitation.image;
+  }
+  else {
+    reciterImage[0].src = bgImageSrc;
+    reciterImage[1].src = bgImageSrc;
+  }
+  reciterImage[0].parentElement.setAttribute("data-name", currentRecitation.name);
+  surahName[0].innerHTML = currentRecitation.surah;
+  surahName[1].innerHTML = currentRecitation.surah;
+  if (currentRecitation.type !== null) {
+    recitationType[0].innerHTML = `(${currentRecitation.type})`;
+    recitationType[1].innerHTML = `(${currentRecitation.type})`;
+  }
+  else {
+    recitationType[0].innerHTML = "";
+    recitationType[1].innerHTML = "";
+  }
+  reciterName[0].innerHTML = currentRecitation.name;
+  reciterName[1].innerHTML = currentRecitation.name;
   localStorage.setItem("currentIndex", JSON.stringify(currentIndex));
   localStorage.setItem("currentRecitation", JSON.stringify(currentRecitation));
   localStorage.setItem("currentRecitationsList", JSON.stringify(currentRecitationsList));
@@ -862,14 +897,18 @@ function toggleImage() {
     reciterBtns.forEach(reciterBtn => {
       reciterBtn.children[1].classList.add("hide-image");
     });
-    reciterImage.src = bgImageSrc;
+    reciterImage[0].src = bgImageSrc;
+    reciterImage[1].src = bgImageSrc;
     selectedReciterImage.src = bgImageSrc;
   }
   else {
     reciterBtns.forEach(reciterBtn => {
       reciterBtn.children[1].classList.remove("hide-image");
     });
-    if (currentRecitation !== null) reciterImage.src = currentRecitation.image;
+    if (currentRecitation !== null) {
+      reciterImage[0].src = currentRecitation.image;
+      reciterImage[1].src = currentRecitation.image;
+    }
     
     selectedReciterImage.src = eStoredImage;
   }
@@ -1094,23 +1133,31 @@ function updateRecentlyPlayed(recitation) {
   addRecentlyPlayed();
 }*/
 
-let shuffle = document.getElementById("shuffle");
+let shuffle = document.querySelectorAll(".shuffle");
 
 function toggleShuffle() {
   if (!isShuffling) {
-    shuffle.classList.add("shuffle-active");
+    shuffle[0].classList.add("shuffle-active");
+    shuffle[1].classList.add("shuffle-active");
     isShuffling = true;
   }
   else {
-    shuffle.classList.remove("shuffle-active");
+    shuffle[0].classList.remove("shuffle-active");
+    shuffle[1].classList.remove("shuffle-active");
     isShuffling = false;
   }
   localStorage.setItem("isShuffling", JSON.stringify(isShuffling));
 }
 
 function checkShuffle() {
-  if (isShuffling) shuffle.classList.add("shuffle-active");
-  else shuffle.classList.remove("shuffle-active");
+  if (isShuffling) {
+    shuffle[0].classList.add("shuffle-active");
+    shuffle[1].classList.remove("shuffle-active");
+  }
+  else {
+    shuffle[0].classList.remove("shuffle-active");
+    shuffle[1].classList.remove("shuffle-active");
+  }
 }
 
 checkShuffle();
@@ -1195,3 +1242,10 @@ function checkReciterURL() {
 }
 
 checkReciterURL();
+
+let nowPlaying = document.querySelector(".now-playing");
+
+function toggleNowPlaying() {
+  if (!nowPlaying.classList.contains("move-now-playing-up")) nowPlaying.classList.add("move-now-playing-up");
+  else nowPlaying.classList.remove("move-now-playing-up");
+}
