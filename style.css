@@ -308,7 +308,7 @@ body > #active-page-line {
     text-align: center;
 }
 
-#search-bar-div {
+.search-bar-div {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -317,6 +317,13 @@ body > #active-page-line {
     flex-direction: column;
     gap: 15px;
     padding-bottom: 15px;
+}
+
+#surah-search-bar-div {
+    margin: 0;
+    margin-bottom:5px;
+    padding: 5px;
+    background-color: #151515;
 }
 
 .play-pause, #stream-audio {
@@ -334,7 +341,7 @@ body > #active-page-line {
     height: 80%;
 }
 
-#search-bar {
+.search-bar {
     width: 350px;
     height: 40px;
     border-radius: 20px;
@@ -345,7 +352,7 @@ body > #active-page-line {
     border: none;
 }
 
-#search-bar:focus {
+.search-bar:focus {
     outline: none;
 }
 
@@ -561,6 +568,7 @@ body > #active-page-line {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
+    align-content: flex-start;
 }
 
 .option {

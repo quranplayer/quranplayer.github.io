@@ -28,7 +28,7 @@ let reciterBtns = [];
 let popUpBg = document.getElementById("pop-up-bg");
 
 let storedVersion = JSON.parse(localStorage.getItem("storedVersion")) || null;
-let currentVersion = 0.3;
+let currentVersion = 0.35;
 
 if (currentVersion !== storedVersion) {
     popUpBg.style.display = "flex";
@@ -300,6 +300,9 @@ function toggleDiv(event) {
     </div>
     <div id="surah-section-parent">
       <div id="section-list"></div>
+      <div id="surah-search-bar-div" class="search-bar-div">
+        <input id="surah-search-bar" class="search-bar" placeholder="Search surah" oninput="searchSurahInput(value)">
+      </div>
       <div id="surah-list-parent">
         <p id="no-data">No data</p>
         <div id="surah-list"></div>
@@ -307,6 +310,8 @@ function toggleDiv(event) {
     </div>
   </div>
   `
+
+  surahSearchBar = document.getElementById("surah-search-bar");
 
   selectedDiv.classList.add("selection-div");
   selectedDiv.classList.add("page");
@@ -347,6 +352,9 @@ function toggleDivOnLoad(object) {
     </div>
     <div id="surah-section-parent">
       <div id="section-list"></div>
+      <div id="surah-search-bar-div" class="search-bar-div">
+        <input id="surah-search-bar" class="search-bar" placeholder="Search surah" oninput="searchSurahInput(value)">
+      </div>
       <div id="surah-list-parent">
         <p id="no-data">No data</p>
         <div id="surah-list"></div>
@@ -354,6 +362,8 @@ function toggleDivOnLoad(object) {
     </div>
   </div>
   `
+
+  surahSearchBar = document.getElementById("surah-search-bar");
 
   selectedDiv.classList.add("selection-div");
   selectedDiv.classList.add("page");
@@ -374,7 +384,7 @@ function editURL(t) {
   url.concat("#" + t.urlName);
 }
 
-function togglePlaylist() {
+/*function togglePlaylist() {
   let playlistDiv = document.createElement("div");
   content.appendChild(playlistDiv);
 
@@ -519,7 +529,7 @@ function togglePlaylist() {
   `
 
   playlistDiv.innerHTML = markup;
-}
+}*/
 
 function removeDiv(e) {
   e.target.parentElement.parentElement.remove();
@@ -588,6 +598,7 @@ function toggleSection(event) {
     removeSurahs();
     addSurahs(currentReciter);
     toggleSectionColor();
+    updateSurahsByQuery();
     checkPlaying();
   }
 }
@@ -948,8 +959,14 @@ function createTag() {
 
 createTag();
 
-let lowerCaseValue = "";
-let lowerCaseName = "";
+let lowerCaseReciterValue = "";
+let lowerCaseReciterName = "";
+
+let lowerCaseSurahValue = "";
+let lowerCaseSurahName = "";
+
+let lowerCaseSurahValue2 = "";
+let lowerCaseSurahName2 = "";
 
 function toggleTag(event) {
   let tag = event.target;
@@ -964,36 +981,36 @@ function toggleTag(event) {
   updateRecitersByQuery();
 }
 
-let searchBar = document.getElementById("search-bar");
+let reciterSearchBar = document.getElementById("reciter-search-bar");
+let surahSearchBar;
 
-searchBar.value = "";
+reciterSearchBar.value = "";
 
-function searchInput(value) {
-  lowerCaseValue = value;
+function searchReciterInput(value) {
+  lowerCaseReciterValue = value;
   updateRecitersByQuery();
 }
 
 function updateRecitersByQuery() {
   for (let i = 0; i < recitersDiv.children.length; i++) {
-
-    lowerCaseName = JSON.parse(recitersDiv.children[i].getAttribute("data-e")).name.toLowerCase().replaceAll("-", " ");
-    formattedText = lowerCaseValue.toLowerCase().replaceAll("-", " ");
-    lowerCaseName = " " + lowerCaseName;
+    lowerCaseReciterName = JSON.parse(recitersDiv.children[i].getAttribute("data-e")).name.toLowerCase().replaceAll("-", " ");
+    formattedText = lowerCaseReciterValue.toLowerCase().replaceAll("-", " ");
+    lowerCaseReciterName = " " + lowerCaseReciterName;
     regex = RegExp(`\\s${formattedText}`);
     let typeData = JSON.parse(recitersDiv.children[i].getAttribute("data-e")).types;
 
-    if (selectedTags.every((val) => typeData.includes(val)) && lowerCaseName.match(regex)) {
+    if (selectedTags.every((val) => typeData.includes(val)) && lowerCaseReciterName.match(regex)) {
 
       recitersDiv.children[i].classList.remove("hidden-reciter");
 
-      /*if (lowerCaseValue !== "") {
+      /*if (lowerCaseReciterValue !== "") {
         const target = recitersDiv.children[i].children[2].firstElementChild;
         const text = target.textContent;
-        const start = text.indexOf(lowerCaseValue);
-        const end = start + lowerCaseValue.length;
+        const start = text.indexOf(lowerCaseReciterValue);
+        const end = start + lowerCaseReciterValue.length;
 
         const span = document.createElement('span');
-        span.textContent = lowerCaseValue;
+        span.textContent = lowerCaseReciterValue;
 
         target.replaceChildren(document.createTextNode(text.slice(0,start)), span, document.createTextNode(text.slice(end)));
       }*/
@@ -1001,13 +1018,30 @@ function updateRecitersByQuery() {
     else recitersDiv.children[i].classList.add("hidden-reciter");
   }
   
-  /*if (selectedTags.length == 0 && lowerCaseValue === "") {
+  /*if (selectedTags.length == 0 && lowerCaseReciterValue === "") {
     for (let i = 0; i < recitersDiv.children.length; i++) {
       //recitersDiv.children[i].children[2].firstElementChild.classList.remove("search-highlight");
     }
   }*/
 
   queryResultCount();
+}
+
+function searchSurahInput(value) {
+  lowerCaseSurahValue = value;
+  updateSurahsByQuery();
+}
+
+function updateSurahsByQuery() {
+  for (let i = 0; i < surahList.children.length; i++) {
+    let lowerCaseSurahName = JSON.parse(surahList.children[i].getAttribute("data-surah")).surah.toLowerCase().replaceAll("-", " ");
+    formattedText = lowerCaseSurahValue.toLowerCase().replaceAll("-", " ");
+    lowerCaseSurahName = " " + lowerCaseSurahName;
+    regex = RegExp(`\\s${formattedText}`);
+
+    if (lowerCaseSurahName.match(regex)) surahList.children[i].classList.remove("hidden-reciter");
+    else surahList.children[i].classList.add("hidden-reciter");
+  }
 }
 
 let queryResultCountText = document.getElementById("query-result-count");
@@ -1246,6 +1280,10 @@ checkReciterURL();
 let nowPlaying = document.querySelector(".now-playing");
 
 function toggleNowPlaying() {
-  if (!nowPlaying.classList.contains("move-now-playing-up")) nowPlaying.classList.add("move-now-playing-up");
-  else nowPlaying.classList.remove("move-now-playing-up");
+  if (!nowPlaying.classList.contains("move-now-playing-up")) {
+    nowPlaying.classList.add("move-now-playing-up");
+  }
+  else {
+    nowPlaying.classList.remove("move-now-playing-up");
+  }
 }

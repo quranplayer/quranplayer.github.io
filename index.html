@@ -110,8 +110,8 @@
                 </div>-->
                 <div class="page reciters">
                     <div id="right-side-div">
-                        <div id="search-bar-div">
-                            <input id="search-bar" placeholder="Search reciter" oninput="searchInput(value)">
+                        <div class="search-bar-div">
+                            <input id="reciter-search-bar" class="search-bar" placeholder="Search reciter" oninput="searchReciterInput(value)">
                             <div id="tags-div-section">
                                 <h3>Tags:</h3>
                                 <div id="tags-div"></div>
@@ -137,7 +137,7 @@
 
         <div class="listen">
             <div id="left-side-parent">
-                <a class="player-image-div" onclick="toggleDiv(event)">
+                <a class="player-image-div">
                     <img src="" alt="" class="player-image">
                 </a>
                 <div id="info-parent">
@@ -261,9 +261,8 @@
         <div id="pop-up">
             <h1>What's new</h1>
             <ul>
-                <li>Click the arrow in the controls tab for a full display of the tab</li>
-                <li>Click reciter's image in the controls tab to view the reciter's page</li>
-                <li>Other changes and fixes</li>
+                <li>10 new reciters</li>
+                <li>Surah search bar added</li>
             </ul>
             <button id="pop-up-btn" onclick="closePopUp()">Okay</button>
         </div>
