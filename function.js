@@ -815,6 +815,8 @@ function playlistPush() {
 function updateSurahByControls() {
   let reciterIndex = 0;
   let typeIndex2 = 0;
+  let kIndex;
+  let isFinal = false;
 
   if (currentRecitationsList.length === 0) {
     if (isShuffling) {
@@ -841,11 +843,20 @@ function updateSurahByControls() {
       }
       for (let k = 0; k < reciters[reciterIndex].recitations[typeIndex2].length; k++) {
         if (currentRecitation.url === reciters[reciterIndex].recitations[typeIndex2][k].url) {
-          currentRecitation = reciters[reciterIndex].recitations[typeIndex2][k + 1];
-          updateSurah();
+          if (k === reciters[reciterIndex].recitations[typeIndex2].length - 1) isFinal = true;
+          kIndex = k;
           break;
         }
       }
+    }
+    if (isFinal) {
+      console.log("ELSE 200");
+      shuffleMode();
+    }
+    else {
+      currentRecitation = reciters[reciterIndex].recitations[typeIndex2][kIndex + 1];
+      console.log("IF 100");
+      updateSurah();
     }
   }
   else {
