@@ -752,7 +752,6 @@ function keepIndexInCheck(isNext) {
   if (isNext) {
     if (currentIndex < currentRecitationsList.length - 1) {
       currentIndex++;
-      console.log(currentIndex);
     }
   }
   else {
@@ -760,7 +759,6 @@ function keepIndexInCheck(isNext) {
       currentIndex--;
       currentRecitation = currentRecitationsList[currentIndex];
       updateSurah();
-      console.log(currentIndex);
     }
   }
 }
@@ -804,10 +802,10 @@ function updateSurahByLink(event) {
 }
 
 function playlistPush() {
-  if (currentRecitationsList.length === 5) {
-    currentRecitationsList.shift();
-  }
   currentRecitationsList.push(currentRecitation);
+  /*if (currentRecitationsList.length === 5) {
+    currentRecitationsList.shift();
+  }*/
   localStorage.setItem("currentRecitation", JSON.stringify(currentRecitation));
   localStorage.setItem("currentRecitationsList", JSON.stringify(currentRecitationsList));
 }
@@ -820,11 +818,13 @@ function updateSurahByControls() {
 
   if (currentRecitationsList.length === 0) {
     if (isShuffling) {
+      console.log("fgfd");
       shuffleMode();
     }
   }
   if (currentRecitationsList.length > 0 && currentIndex === currentRecitationsList.length - 1) {
     if (isShuffling) {
+      console.log("fAjjdGT");
       shuffleMode();
     }
     else {
@@ -860,6 +860,7 @@ function updateSurahByControls() {
     }
   }
   else {
+    console.log("ELSSSLSL")
     currentRecitation = currentRecitationsList[currentIndex];
     updateSurah();
   }
